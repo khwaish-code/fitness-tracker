@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness Tracker & Health Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        .container {
+            width: 350px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        input, button {
+            margin: 8px;
+            padding: 10px;
+            width: 85%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .toggle {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Fitness Tracker & Health Calculator</h1>
+
+<!-- BMI -->
+<div class="container">
+    <h3>BMI Calculator</h3>
+    <input type="number" id="weight" placeholder="Weight (kg)">
+    <input type="number" id="height" placeholder="Height (cm)">
+    <button onclick="calculateBMI()">Calculate BMI</button>
+    <div id="bmiResult"></div>
+</div>
+
+<!-- Calories -->
+<div class="container">
+    <h3>Calorie Calculator</h3>
+    <input type="number" id="calWeight" placeholder="Weight (kg)">
+    <input type="number" id="calAge" placeholder="Age">
+    <button onclick="calculateCalories()">Calculate Calories</button>
+    <div id="calResult"></div>
+</div>
+
+<!-- Water Intake -->
+<div class="container">
+    <h3>Water Intake Calculator</h3>
+    <input type="number" id="waterWeight" placeholder="Weight (kg)">
+    <button onclick="calculateWater()">Calculate Water Intake</button>
+    <div id="waterResult"></div>
+</div>
+
+<!-- Slider -->
+<div class="container">
+    <h3>Daily Steps Goal</h3>
+    <input type="range" min="1000" max="20000" value="5000" id="stepsSlider" oninput="updateSteps()">
+    <p id="stepsValue">Steps: 5000</p>
+</div>
+
+<!-- Tips -->
+<div class="container">
+    <p class="toggle" onclick="toggleTips()">Show/Hide Health Tips</p>
+    <div id="tips" class="hidden">
+        <p>✔ Drink 2-3L water daily</p>
+        <p>✔ Exercise 30 mins/day</p>
+        <p>✔ Sleep 7-8 hours</p>
+        <p>✔ Avoid junk food</p>
+    </div>
+</div>
+
+<script>
+// BMI
+function calculateBMI() {
+    let w = document.getElementById("weight").value;
+    let h = document.getElementById("height").value / 100;
+    let bmi = w / (h*h);
+
+    let category = "";
+    if (bmi < 18.5) category = "Underweight";
+    else if (bmi < 25) category = "Normal";
+    else if (bmi < 30) category = "Overweight";
+    else category = "Obese";
+
+    document.getElementById("bmiResult").innerHTML =
+        "BMI: " + bmi.toFixed(2) + " (" + category + ")";
+}
+
+// Calories
+function calculateCalories() {
+    let w = document.getElementById("calWeight").value;
+    let age = document.getElementById("calAge").value;
+
+    let calories = (10 * w) + (6.25 * 170) - (5 * age) + 5;
+
+    document.getElementById("calResult").innerHTML =
+        "Daily Calories Needed: " + calories.toFixed(0) + " kcal";
+}
+
+// Water
+function calculateWater() {
+    let w = document.getElementById("waterWeight").value;
+    let water = w * 0.033;
+
+    document.getElementById("waterResult").innerHTML =
+        "Water Intake: " + water.toFixed(2) + " Litres/day";
+}
+
+// Slider
+function updateSteps() {
+    let steps = document.getElementById("stepsSlider").value;
+    document.getElementById("stepsValue").innerHTML =
+        "Steps: " + steps;
+}
+
+// Toggle Tips
+function toggleTips() {
+    let tips = document.getElementById("tips");
+    tips.classList.toggle("hidden");
+}
+</script>
+
+</body>
+</html>
